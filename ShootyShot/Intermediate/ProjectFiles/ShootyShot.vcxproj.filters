@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\ShootyShot.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{ED56EF96-DDAB-4332-9F06-F69D5B774320}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\ShootyShot.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\ShootyShotEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{14AD1FFA-9EAB-47D1-A373-57203DD936FB}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultGame.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\ShootyShot">
+			<UniqueIdentifier>{8F2050F6-45D0-4C9E-A7B2-868B18CE3E92}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\ShootyShot\ShootyShot.Build.cs">
+			<Filter>Source\ShootyShot</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\ShootyShot\ShootyShot.cpp">
+			<Filter>Source\ShootyShot</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\ShootyShot\ShootyShot.h">
+			<Filter>Source\ShootyShot</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\ShootyShot\ShootyShotCharacter.cpp">
+			<Filter>Source\ShootyShot</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\ShootyShot\ShootyShotCharacter.h">
+			<Filter>Source\ShootyShot</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\ShootyShot\ShootyShotGameMode.cpp">
+			<Filter>Source\ShootyShot</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\ShootyShot\ShootyShotGameMode.h">
+			<Filter>Source\ShootyShot</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\ShootyShot\ShootyShotHUD.cpp">
+			<Filter>Source\ShootyShot</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\ShootyShot\ShootyShotHUD.h">
+			<Filter>Source\ShootyShot</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\ShootyShot\ShootyShotProjectile.cpp">
+			<Filter>Source\ShootyShot</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\ShootyShot\ShootyShotProjectile.h">
+			<Filter>Source\ShootyShot</Filter>
+		</ClInclude >
+	</ItemGroup>
+</Project>
