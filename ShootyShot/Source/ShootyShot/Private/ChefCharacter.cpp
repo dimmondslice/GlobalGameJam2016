@@ -96,7 +96,8 @@ FString AChefCharacter::DoTrace()
 }
 
 
-void AChefCharacter::HandleGrabbingStuff() {
+void AChefCharacter::HandleGrabbingStuff(FString& linetrace) {
+	
     if (PhysicsHandleActive)
     {
         PhysicsHandleActive = false;
@@ -108,6 +109,7 @@ void AChefCharacter::HandleGrabbingStuff() {
             //UE_LOG(LogTemp, Warning, TEXT("Launching"));
             PhysicsObject->AddImpulse(ImpulseToAdd);
         }
+		linetrace = "None";
     }
     else
     {
@@ -126,8 +128,10 @@ void AChefCharacter::HandleGrabbingStuff() {
         //Params->bTraceAsyncScene = true;
         //Params->bReturnPhysicalMaterial = true;
 
+		
         if (GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_Visibility))
         {
+			linetrace = "Succeeded";
             PhysicsHandleActive = true;
 
             PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
@@ -135,6 +139,11 @@ void AChefCharacter::HandleGrabbingStuff() {
             PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
             //Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
         }
+		else
+		{
+			linetrace = "Succeeded";
+
+		}
 
         OtherItemLocation = (GetActorLocation() - Out.Location).Size();
         OtherRotation = GetActorRotation();
