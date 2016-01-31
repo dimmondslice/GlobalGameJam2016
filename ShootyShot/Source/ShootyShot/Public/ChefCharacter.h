@@ -37,7 +37,7 @@ public:
 
     /** Fires a projectile. */
     UFUNCTION(BlueprintCallable, Category = "Interaction")
-    void HandleGrabbingStuff(FString& linetrace);
+    void HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace);
 
 public:
 
