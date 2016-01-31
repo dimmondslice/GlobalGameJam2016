@@ -46,6 +46,17 @@ AShootyShotCharacter::AShootyShotCharacter()
 
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P are set in the
 	// derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	PhysicsHandleActive = false;
+	Held = false;
+	OtherItemLocation = 0.0;
+	PickupDistance = 500;
+	HandleLocation = FVector(0.0, 0.0, 0.0);
+	OtherRotation = FRotator(0.0, 0.0, 0.0);
+	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandle"));
+	//PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandle"));
+	//PhysicsObject;
+	//PhysicsObjectTypes;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -77,9 +88,104 @@ void AShootyShotCharacter::SetupPlayerInputComponent(class UInputComponent* Inpu
 	InputComponent->BindAxis("LookUpRate", this, &AShootyShotCharacter::LookUpAtRate);
 }
 
+void AShootyShotCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (PhysicsHandleActive)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Setting Position"));
+		
+		FVector HandleLocation = GetControlRotation().Vector() * OtherItemLocation + FVector(0, 0, 50);
+		PhysicsHandle->SetTargetLocationAndRotation(HandleLocation, GetControlRotation());
+	}
+}
+
+
+
+void AShootyShotCharacter::GrabThrow(AActor* ActorToIgnore)
+{
+	if (Held)
+	{
+		PhysicsHandleActive = false;
+		//Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
+		PhysicsHandle->ReleaseComponent();
+	}
+	else
+	{
+		FHitResult Out;
+		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
+		FVector End = FirstPersonCameraComponent->GetForwardVector() * PickupDistance + Start;
+		//AActor* ActorToIgnore = GetOwner();
+		//if(ActorToIgnore)
+		//UE_LOG(LogTemp, Warning, TEXT("Ignoring"));//, *ActorToIgnore->GetName());
+
+		FCollisionQueryParams Params(FName(TEXT("Food Trace")), true, ActorToIgnore);
+
+		Params.AddIgnoredActor(ActorToIgnore);
+
+		//Params->bTraceComplex = true;
+		//Params->bTraceAsyncScene = true;
+		//Params->bReturnPhysicalMaterial = true;
+
+		if (GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_Visibility))
+		{
+			PhysicsHandleActive = true;
+			UE_LOG(LogTemp, Warning, TEXT("Grabbed %s"), *Out.GetComponent()->GetName());
+
+			PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
+			PhysicsObject = Out.GetComponent();
+			PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
+			Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+		}
+
+		OtherItemLocation = (GetActorLocation() - Out.Location).Size();
+		OtherRotation = GetActorRotation();
+
+	}
+}
+
 void AShootyShotCharacter::OnFire()
 { 
-	// try and fire a projectile
+	/*if (Held)
+	{
+		PhysicsHandleActive = false;
+		//Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
+		PhysicsHandle->ReleaseComponent();
+	}
+	else
+	{
+		FHitResult Out;
+		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
+		FVector End = FirstPersonCameraComponent->GetForwardVector() * PickupDistance + Start;
+		AActor* ActorToIgnore = GetOwner();
+		//if(ActorToIgnore)
+		//UE_LOG(LogTemp, Warning, TEXT("Ignoring"));//, *ActorToIgnore->GetName());
+
+		FCollisionQueryParams Params(FName(TEXT("Food Trace")), true, ActorToIgnore);
+
+		Params.AddIgnoredActor(ActorToIgnore);
+		
+		//Params->bTraceComplex = true;
+		//Params->bTraceAsyncScene = true;
+		//Params->bReturnPhysicalMaterial = true;
+		
+		if(GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_PhysicsBody, Params))
+		{
+			PhysicsHandleActive = true;
+			UE_LOG(LogTemp, Warning, TEXT("Grabbed %s"), *Out.GetComponent()->GetName());
+
+			PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
+			PhysicsObject = Out.GetComponent();
+			PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
+			Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+		}
+
+		OtherItemLocation = (GetActorLocation() - Out.Location).Size();
+		OtherRotation = GetActorRotation();
+		
+	}*/
+
+	/*// try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
 		const FRotator SpawnRotation = GetControlRotation();
@@ -92,7 +198,7 @@ void AShootyShotCharacter::OnFire()
 			// spawn the projectile at the muzzle
 			World->SpawnActor<AShootyShotProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
 		}
-	}
+	}*/
 
 	// try and play the sound if specified
 	if (FireSound != NULL)
