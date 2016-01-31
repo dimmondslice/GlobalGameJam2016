@@ -95,7 +95,7 @@ void AShootyShotCharacter::Tick(float DeltaTime)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Setting Position"));
 		
-		FVector HandleLocation = GetControlRotation().Vector() * OtherItemLocation + FVector(0, 0, 50);
+		FVector HandleLocation = FirstPersonCameraComponent->GetComponentRotation().Vector() * OtherItemLocation + GetActorLocation() + FVector(0.0,0.0,50);//(GetControlRotation().Vector() * OtherItemLocation) + FVector(0, 0, 5);
 		PhysicsHandle->SetTargetLocationAndRotation(HandleLocation, GetControlRotation());
 	}
 }
@@ -104,24 +104,35 @@ void AShootyShotCharacter::Tick(float DeltaTime)
 
 void AShootyShotCharacter::GrabThrow(AActor* ActorToIgnore)
 {
-	if (Held)
+	
+}
+
+void AShootyShotCharacter::OnFire()
+{ 
+	if (PhysicsHandleActive)
 	{
 		PhysicsHandleActive = false;
 		//Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
 		PhysicsHandle->ReleaseComponent();
+		FVector ImpulseToAdd(FirstPersonCameraComponent->GetForwardVector() * 500000);
+		if (PhysicsObject != NULL)
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("Launching"));
+			PhysicsObject->AddImpulse(ImpulseToAdd);
+		}
 	}
 	else
 	{
 		FHitResult Out;
 		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
 		FVector End = FirstPersonCameraComponent->GetForwardVector() * PickupDistance + Start;
-		//AActor* ActorToIgnore = GetOwner();
+		//AActor* ActorToIgnore;
 		//if(ActorToIgnore)
 		//UE_LOG(LogTemp, Warning, TEXT("Ignoring"));//, *ActorToIgnore->GetName());
 
-		FCollisionQueryParams Params(FName(TEXT("Food Trace")), true, ActorToIgnore);
+		FCollisionQueryParams Params(FName(TEXT("Food Trace")), true, NULL);
 
-		Params.AddIgnoredActor(ActorToIgnore);
+		//Params.AddIgnoredActor(ActorToIgnore);
 
 		//Params->bTraceComplex = true;
 		//Params->bTraceAsyncScene = true;
@@ -130,60 +141,17 @@ void AShootyShotCharacter::GrabThrow(AActor* ActorToIgnore)
 		if (GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_Visibility))
 		{
 			PhysicsHandleActive = true;
-			UE_LOG(LogTemp, Warning, TEXT("Grabbed %s"), *Out.GetComponent()->GetName());
 
 			PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
 			PhysicsObject = Out.GetComponent();
 			PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
-			Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+			//Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 		}
 
 		OtherItemLocation = (GetActorLocation() - Out.Location).Size();
 		OtherRotation = GetActorRotation();
 
 	}
-}
-
-void AShootyShotCharacter::OnFire()
-{ 
-	/*if (Held)
-	{
-		PhysicsHandleActive = false;
-		//Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
-		PhysicsHandle->ReleaseComponent();
-	}
-	else
-	{
-		FHitResult Out;
-		FVector Start = FirstPersonCameraComponent->GetComponentLocation();
-		FVector End = FirstPersonCameraComponent->GetForwardVector() * PickupDistance + Start;
-		AActor* ActorToIgnore = GetOwner();
-		//if(ActorToIgnore)
-		//UE_LOG(LogTemp, Warning, TEXT("Ignoring"));//, *ActorToIgnore->GetName());
-
-		FCollisionQueryParams Params(FName(TEXT("Food Trace")), true, ActorToIgnore);
-
-		Params.AddIgnoredActor(ActorToIgnore);
-		
-		//Params->bTraceComplex = true;
-		//Params->bTraceAsyncScene = true;
-		//Params->bReturnPhysicalMaterial = true;
-		
-		if(GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_PhysicsBody, Params))
-		{
-			PhysicsHandleActive = true;
-			UE_LOG(LogTemp, Warning, TEXT("Grabbed %s"), *Out.GetComponent()->GetName());
-
-			PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
-			PhysicsObject = Out.GetComponent();
-			PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
-			Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-		}
-
-		OtherItemLocation = (GetActorLocation() - Out.Location).Size();
-		OtherRotation = GetActorRotation();
-		
-	}*/
 
 	/*// try and fire a projectile
 	if (ProjectileClass != NULL)
