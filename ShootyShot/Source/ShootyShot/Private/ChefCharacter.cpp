@@ -96,9 +96,12 @@ FString AChefCharacter::DoTrace()
 }
 
 
-void AChefCharacter::HandleGrabbingStuff() {
+void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing) {
     if (PhysicsHandleActive)
     {
+        grabbing = false;
+        succeeded = false;
+
         PhysicsHandleActive = false;
         //Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
         PhysicsHandle->ReleaseComponent();
@@ -107,6 +110,8 @@ void AChefCharacter::HandleGrabbingStuff() {
         {
             //UE_LOG(LogTemp, Warning, TEXT("Launching"));
             PhysicsObject->AddImpulse(ImpulseToAdd);
+
+            succeeded = true;
         }
     }
     else
@@ -134,6 +139,13 @@ void AChefCharacter::HandleGrabbingStuff() {
             PhysicsObject = Out.GetComponent();
             PhysicsHandle->GrabComponent(PhysicsObject, Out.BoneName, Out.Location, true);
             //Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+
+            succeeded = true;
+            grabbing = true;
+        }
+        else {
+            succeeded = false;
+            grabbing = false;
         }
 
         OtherItemLocation = (GetActorLocation() - Out.Location).Size();
