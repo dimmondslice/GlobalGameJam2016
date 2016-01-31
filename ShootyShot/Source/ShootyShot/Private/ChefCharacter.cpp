@@ -89,15 +89,24 @@ FString AChefCharacter::DoTrace()
 	RV_TraceParams->bReturnPhysicalMaterial = true;
 
 	//do the line cast
-	bool trace = GetWorld()->LineTraceSingle(*RV_Hit, start, end, ECC_Pawn, *RV_TraceParams);
+	bool trace = GetWorld()->LineTraceSingleByChannel(*RV_Hit, start, end, ECC_Pawn, *RV_TraceParams);
 
 	//UE_LOG(LogTemp, Warning, TEXT("You fired a ray and hit: %s"), *RV_Hit->Actor->GetName());
 	return RV_Hit->Actor->GetName();
 }
 
+void AChefCharacter::AddImpulse(UPrimitiveComponent* PhysicsObject, FVector ImpulseToAdd)
+{
+	if (PhysicsObject != NULL)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Launching"));
+		PhysicsObject->AddImpulse(ImpulseToAdd);
 
+		//succeeded = true;
+	}
+}
 
-void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace) {
+void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace, FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling) {
     if (PhysicsHandleActive)
     {
         grabbing = false;
@@ -106,14 +115,16 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FStr
         PhysicsHandleActive = false;
         //Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
         PhysicsHandle->ReleaseComponent();
-        FVector ImpulseToAdd(FirstPersonCameraComponent->GetForwardVector() * 500000);
-        if (PhysicsObject != NULL)
+        ImpulseToAdd = FirstPersonCameraComponent->GetForwardVector() * 500000;
+		ObjectToFling = PhysicsObject;
+		succeeded = true;
+        /*if (PhysicsObject != NULL)
         {
             //UE_LOG(LogTemp, Warning, TEXT("Launching"));
             PhysicsObject->AddImpulse(ImpulseToAdd);
 
             succeeded = true;
-        }
+        }*/
 		linetrace = "None";
     }
     else

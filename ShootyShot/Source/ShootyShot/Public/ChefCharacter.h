@@ -36,8 +36,11 @@ public:
     class UCameraComponent* FirstPersonCameraComponent;
 
     /** Fires a projectile. */
-    UFUNCTION(BlueprintCallable, Category = "Interaction")
-    void HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace);
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+		void HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace, FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling);
+
+		UFUNCTION(BlueprintCallable, Category = "Interaction")
+		void AddImpulse(UPrimitiveComponent* PhysicsObject, FVector ImpulseToAdd);
 
 public:
 
