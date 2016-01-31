@@ -34,4 +34,8 @@ void AFoodItem::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
+/*
+void AFoodItem::NetworkAddImpulse() {
 
+}
+*/

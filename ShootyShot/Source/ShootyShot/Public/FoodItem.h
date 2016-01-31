@@ -22,4 +22,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	USceneComponent* visibleComp;
+
+    /*
+    UFUNCTION(BlueprintNativeEvent, Category = "Network Physics")
+    void NetworkAddImpulse();
+    */
 };
