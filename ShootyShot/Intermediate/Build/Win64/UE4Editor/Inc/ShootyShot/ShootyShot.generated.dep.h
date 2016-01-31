@@ -5,6 +5,12 @@
 	DO NOT modify this manually! Edit the corresponding .h files instead!
 ===========================================================================*/
 
+#ifndef SHOOTYSHOT_LightSwitch_generated_h
+	#include "LightSwitch.h"
+#endif
+#ifndef SHOOTYSHOT_Pot_generated_h
+	#include "Pot.h"
+#endif
 #ifndef SHOOTYSHOT_ShootyShotCharacter_generated_h
 	#include "ShootyShotCharacter.h"
 #endif
