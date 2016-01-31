@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "ShootyShotCharacter.generated.h"
 
 class UInputComponent;
@@ -102,6 +103,25 @@ public:
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+private:
+	bool PhysicsHandleActive;
+	bool Held;
+	float OtherItemLocation;
+	float PickupDistance;
+	FVector HandleLocation;
+	FRotator OtherRotation;
+	UPhysicsHandleComponent* PhysicsHandle;
+	UPrimitiveComponent* PhysicsObject;
+	EObjectTypeQuery PhysicsObjectTypes;
+
+public:
+	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Grab Throw")
+	virtual void GrabThrow(AActor* ActorToIgnore);
+
+
 
 };
 
