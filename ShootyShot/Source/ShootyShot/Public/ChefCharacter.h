@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
 #include "ChefCharacter.generated.h"
 
 UCLASS()
@@ -28,4 +30,30 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float castDistance;
+
+    /** First person camera */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    class UCameraComponent* FirstPersonCameraComponent;
+
+    /** Fires a projectile. */
+    UFUNCTION(BlueprintCallable, Category = "Interaction")
+    void HandleGrabbingStuff();
+
+public:
+
+    /** Returns FirstPersonCameraComponent subobject **/
+    FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+
+private:
+    bool PhysicsHandleActive;
+    bool Held;
+    float OtherItemLocation;
+    float PickupDistance;
+    FVector HandleLocation;
+    FRotator OtherRotation;
+    UPhysicsHandleComponent* PhysicsHandle;
+    UPrimitiveComponent* PhysicsObject;
+    EObjectTypeQuery PhysicsObjectTypes;
+
 };
