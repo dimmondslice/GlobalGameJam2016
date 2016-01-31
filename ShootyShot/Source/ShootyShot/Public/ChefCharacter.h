@@ -23,6 +23,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	
-	
+	UFUNCTION(BlueprintCallable, Category = "whatever")
+	virtual FString DoTrace();
+
+	UPROPERTY(EditAnywhere)
+	float castDistance;
 };
