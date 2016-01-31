@@ -96,7 +96,8 @@ FString AChefCharacter::DoTrace()
 }
 
 
-void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing) {
+
+void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace) {
     if (PhysicsHandleActive)
     {
         grabbing = false;
@@ -113,6 +114,7 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing) {
 
             succeeded = true;
         }
+		linetrace = "None";
     }
     else
     {
@@ -131,8 +133,10 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing) {
         //Params->bTraceAsyncScene = true;
         //Params->bReturnPhysicalMaterial = true;
 
+		
         if (GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_Visibility))
         {
+			linetrace = "Succeeded";
             PhysicsHandleActive = true;
 
             PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
@@ -146,7 +150,9 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing) {
         else {
             succeeded = false;
             grabbing = false;
+			linetrace = "Succeeded";
         }
+
 
         OtherItemLocation = (GetActorLocation() - Out.Location).Size();
         OtherRotation = GetActorRotation();
