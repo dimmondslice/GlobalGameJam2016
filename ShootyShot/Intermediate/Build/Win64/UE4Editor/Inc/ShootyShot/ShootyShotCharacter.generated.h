@@ -8,14 +8,33 @@
 #include "ObjectBase.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+class AActor;
 #ifdef SHOOTYSHOT_ShootyShotCharacter_generated_h
 #error "ShootyShotCharacter.generated.h already included, missing '#pragma once' in ShootyShotCharacter.h"
 #endif
 #define SHOOTYSHOT_ShootyShotCharacter_generated_h
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_RPC_WRAPPERS
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_RPC_WRAPPERS_NO_PURE_DECLS
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_INCLASS_NO_PURE_DECLS \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execGrabThrow) \
+	{ \
+		P_GET_OBJECT(AActor,Z_Param_ActorToIgnore); \
+		P_FINISH; \
+		this->GrabThrow(Z_Param_ActorToIgnore); \
+	}
+
+
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execGrabThrow) \
+	{ \
+		P_GET_OBJECT(AActor,Z_Param_ActorToIgnore); \
+		P_FINISH; \
+		this->GrabThrow(Z_Param_ActorToIgnore); \
+	}
+
+
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_INCLASS_NO_PURE_DECLS \
 	private: \
 	static void StaticRegisterNativesAShootyShotCharacter(); \
 	friend SHOOTYSHOT_API class UClass* Z_Construct_UClass_AShootyShotCharacter(); \
@@ -26,7 +45,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	virtual UObject* _getUObject() const override { return const_cast<AShootyShotCharacter*>(this); }
 
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_INCLASS \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_INCLASS \
 	private: \
 	static void StaticRegisterNativesAShootyShotCharacter(); \
 	friend SHOOTYSHOT_API class UClass* Z_Construct_UClass_AShootyShotCharacter(); \
@@ -37,7 +56,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	virtual UObject* _getUObject() const override { return const_cast<AShootyShotCharacter*>(this); }
 
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_STANDARD_CONSTRUCTORS \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AShootyShotCharacter(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AShootyShotCharacter) \
@@ -49,7 +68,7 @@ private: \
 public:
 
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_ENHANCED_CONSTRUCTORS \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private copy-constructor, should never be used */ \
 	NO_API AShootyShotCharacter(const AShootyShotCharacter& InCopy); \
@@ -59,23 +78,23 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AShootyShotCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AShootyShotCharacter)
 
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_8_PROLOG
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_GENERATED_BODY_LEGACY \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_9_PROLOG
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_RPC_WRAPPERS \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_INCLASS \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_STANDARD_CONSTRUCTORS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_RPC_WRAPPERS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_INCLASS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_GENERATED_BODY \
+#define ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_RPC_WRAPPERS_NO_PURE_DECLS \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_INCLASS_NO_PURE_DECLS \
-	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_11_ENHANCED_CONSTRUCTORS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_INCLASS_NO_PURE_DECLS \
+	ShootyShot_Source_ShootyShot_ShootyShotCharacter_h_12_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
