@@ -52,6 +52,7 @@ public:
 protected:
 	
 	/** Fires a projectile. */
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void OnFire();
 
 	/** Handles moving forward/backward */

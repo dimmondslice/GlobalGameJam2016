@@ -33,3 +33,28 @@ void AChefCharacter::SetupPlayerInputComponent(class UInputComponent* InputCompo
 
 }
 
+FString AChefCharacter::DoTrace()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("hey it didn't crash"));
+
+	
+	FHitResult* RV_Hit = new FHitResult();
+	FCollisionQueryParams* RV_TraceParams = new FCollisionQueryParams();
+
+	//get camera transform
+	FVector CameraLoc = GetActorLocation();
+	FRotator CameraRot = GetActorRotation();
+
+	FVector start = CameraLoc;
+	FVector end = CameraLoc + (CameraRot.Vector() * castDistance);
+
+	RV_TraceParams->bTraceComplex = true;
+	RV_TraceParams->bTraceAsyncScene = true;
+	RV_TraceParams->bReturnPhysicalMaterial = true;
+
+	//do the line cast
+	bool trace = GetWorld()->LineTraceSingle(*RV_Hit, start, end, ECC_Pawn, *RV_TraceParams);
+
+	//UE_LOG(LogTemp, Warning, TEXT("You fired a ray and hit: %s"), *RV_Hit->Actor->GetName());
+	return RV_Hit->Actor->GetName();
+}
