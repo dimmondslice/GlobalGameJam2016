@@ -106,7 +106,10 @@ void AChefCharacter::AddImpulse(UPrimitiveComponent* PhysicsObject, FVector Impu
 	}
 }
 
-void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace, FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling) {
+void AChefCharacter::HandleGrabbingStuff(FRotator rotation, bool & succeeded, bool & grabbing,/* FString& linetrace,*/ FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling) {
+    FVector forwardVec = rotation.RotateVector(FVector(1.0f,0.0f,0.0f));
+    //FVector forwardVec = rotation.Vector;
+
     if (PhysicsHandleActive)
     {
         grabbing = false;
@@ -115,7 +118,7 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FStr
         PhysicsHandleActive = false;
         //Out.Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
         PhysicsHandle->ReleaseComponent();
-        ImpulseToAdd = FirstPersonCameraComponent->GetForwardVector() * 500000;
+        ImpulseToAdd = forwardVec * 500000;
 		ObjectToFling = PhysicsObject;
 		succeeded = true;
         /*if (PhysicsObject != NULL)
@@ -125,13 +128,13 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FStr
 
             succeeded = true;
         }*/
-		linetrace = "None";
+		//linetrace = "None";
     }
     else
     {
         FHitResult Out;
         FVector Start = FirstPersonCameraComponent->GetComponentLocation();
-        FVector End = FirstPersonCameraComponent->GetForwardVector() * PickupDistance + Start;
+        FVector End = forwardVec * PickupDistance + Start;
         //AActor* ActorToIgnore;
         //if(ActorToIgnore)
         //UE_LOG(LogTemp, Warning, TEXT("Ignoring"));//, *ActorToIgnore->GetName());
@@ -147,7 +150,7 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FStr
 		
         if (GetWorld()->LineTraceSingleByChannel(Out, Start, End, ECC_Visibility))
         {
-			linetrace = "Succeeded";
+			//linetrace = "Succeeded";
             PhysicsHandleActive = true;
 
             PhysicsHandle->SetTargetLocation(GetTransform().GetLocation());
@@ -161,7 +164,7 @@ void AChefCharacter::HandleGrabbingStuff(bool & succeeded, bool & grabbing, FStr
         else {
             succeeded = false;
             grabbing = false;
-			linetrace = "Succeeded";
+			//linetrace = "Succeeded";
         }
 
 

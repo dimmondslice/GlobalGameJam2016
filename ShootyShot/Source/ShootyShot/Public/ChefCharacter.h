@@ -25,22 +25,26 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UFUNCTION(BlueprintCallable, Category = "whatever")
-	virtual FString DoTrace();
+    UPROPERTY(EditAnywhere, Category = "Chef Interaction")
+    UPhysicsHandleComponent* PhysicsHandle;
 
-	UPROPERTY(EditAnywhere)
-	float castDistance;
+    UPROPERTY(EditAnywhere)
+        float castDistance;
 
     /** First person camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     class UCameraComponent* FirstPersonCameraComponent;
 
-    /** Fires a projectile. */
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-		void HandleGrabbingStuff(bool & succeeded, bool & grabbing, FString& linetrace, FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling);
+    UFUNCTION(BlueprintCallable, Category = "Chef Testing")
+        virtual FString DoTrace();
 
-		UFUNCTION(BlueprintCallable, Category = "Interaction")
-		void AddImpulse(UPrimitiveComponent* PhysicsObject, FVector ImpulseToAdd);
+    /** Fires a projectile. */
+	UFUNCTION(BlueprintCallable, Category = "Chef|Interaction")
+    void HandleGrabbingStuff(FRotator rotation, bool & succeeded, bool & grabbing,/* FString& linetrace,*/ FVector& ImpulseToAdd, UPrimitiveComponent*& ObjectToFling);
+
+	UFUNCTION(BlueprintCallable, Category = "Chef|Interaction")
+	void AddImpulse(UPrimitiveComponent* PhysicsObject, FVector ImpulseToAdd);
+
 
 public:
 
@@ -55,7 +59,6 @@ private:
     float PickupDistance;
     FVector HandleLocation;
     FRotator OtherRotation;
-    UPhysicsHandleComponent* PhysicsHandle;
     UPrimitiveComponent* PhysicsObject;
     EObjectTypeQuery PhysicsObjectTypes;
 
